@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import ru.darvell.heisenberg.HeisenbergGame;
+import ru.darvell.heisenberg.levels.TestLevel;
 
 /**
  * Главное меню игры
@@ -35,11 +36,9 @@ public class MainMenuScreen implements Screen{
 		heisenbergGame.getBatch().end();
 
 		if (Gdx.input.isTouched()) {
-			//heisenbergGame.setScreen(new GameScreen(game));
+			heisenbergGame.setScreen(new TestLevel(heisenbergGame));
 			dispose();
 		}
-
-
 	}
 
 	@Override

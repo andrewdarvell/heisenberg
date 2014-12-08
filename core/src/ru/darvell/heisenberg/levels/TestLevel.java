@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import ru.darvell.heisenberg.HeisenbergGame;
 import ru.darvell.heisenberg.gameworld.GameRender;
 import ru.darvell.heisenberg.gameworld.GameWorld;
+import ru.darvell.heisenberg.helpers.InputHandler;
 
 /**
  * Тестовый уровень. Для того, чтобы
@@ -20,8 +21,9 @@ public class TestLevel implements Screen {
 
 	public TestLevel(final HeisenbergGame hsg){
 		heisenbergGame = hsg;
-		gameWorld = new GameWorld();
+		gameWorld = new GameWorld(Gdx.graphics.getHeight());
 		gameRender = new GameRender(gameWorld);
+		Gdx.input.setInputProcessor(new InputHandler(gameWorld.getHeisenberg()));
 
 	}
 

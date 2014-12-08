@@ -24,4 +24,20 @@ public class Heisenberg {
 		acceleration = new Vector2(0, 460);
 	}
 
+	public void update(float delta) {
+
+		velocity.add(acceleration.cpy().scl(delta));
+
+		if (velocity.y > 200) {
+			velocity.y = 200;
+		}
+
+		position.add(velocity.cpy().scl(delta));
+
+	}
+
+	public void onClick() {
+		velocity.y = -140;
+	}
+
 }

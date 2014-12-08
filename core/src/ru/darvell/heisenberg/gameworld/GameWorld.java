@@ -12,7 +12,7 @@ public class GameWorld {
 	private Heisenberg heisenberg;
 
 	public GameWorld(int midPointY){
-		heisenberg = new Heisenberg(33, midPointY - 5, 32, 64);
+		heisenberg = new Heisenberg(100, 100, 32, 64);
 	}
 
 	public void update(float delta){

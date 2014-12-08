@@ -17,6 +17,7 @@ public class TestLevel implements Screen {
 	final HeisenbergGame heisenbergGame;
 	private GameWorld gameWorld;
 	private GameRender gameRender;
+	private float runTime = 0;
 
 
 	public TestLevel(final HeisenbergGame hsg){
@@ -29,8 +30,9 @@ public class TestLevel implements Screen {
 
 	@Override
 	public void render(float delta) {
+		runTime += delta;
 		gameWorld.update(delta);
-		gameRender.render();
+		gameRender.render(runTime);
 	}
 
 	@Override

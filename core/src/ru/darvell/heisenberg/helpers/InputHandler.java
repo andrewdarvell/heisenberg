@@ -11,6 +11,11 @@ import ru.darvell.heisenberg.gameobjects.Heisenberg;
 public class InputHandler implements InputProcessor {
     private Heisenberg heisenberg;
 
+    private final int LEFT = 1;
+    private final int RIGHT = 2;
+    private final int UP = 3;
+    private final int DOWN = 4;
+
     public InputHandler(Heisenberg heisenberg){
         this.heisenberg = heisenberg;
     }
@@ -30,8 +35,13 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if ((keycode == Input.Keys.LEFT) || (keycode == Input.Keys.RIGHT)){
-            heisenberg.stopMove();
+        switch (keycode){
+            case Input.Keys.LEFT:
+                heisenberg.stopMoveLeft();
+                break;
+            case Input.Keys.RIGHT:
+                heisenberg.stopMoveRight();
+                break;
         }
         return false;
     }
@@ -43,30 +53,27 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        System.out.println(screenX+";"+screenY);
-        int y = Gdx.graphics.getHeight();
-        int x = Gdx.graphics.getWidth();
-        float y0 = y/2;
-        float x1 = x/100 * 30;
-        float x2 = x-x1;
-//        System.out.println(x+";"+y);
-//        System.out.println(y0+";"+x1+";"+x2);
-        if(screenY >= y0){
-            if (screenX <= x1){
+        switch (findTouch(screenX, screenY)){
+            case LEFT:
                 heisenberg.moveLeft();
-                System.out.println("Left!!");
-            }else if(screenX>=x2){
+                break;
+            case RIGHT:
                 heisenberg.moveRight();
-                System.out.println("Right!!");
-            }
+                break;
         }
-
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        heisenberg.stopMove();
+        switch (findTouch(screenX, screenY)){
+            case LEFT:
+                heisenberg.stopMoveLeft();
+                break;
+            case RIGHT:
+                heisenberg.stopMoveRight();
+                break;
+        }
         return false;
     }
 
@@ -84,4 +91,21 @@ public class InputHandler implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    private int findTouch(int x, int y){
+        int scrY = Gdx.graphics.getHeight();
+        int scrX = Gdx.graphics.getWidth();
+        float y0 = scrY / 2;
+        float x1 = scrX / 100 * 30;
+        float x2 = scrX - x1;
+        if(y >= y0){
+            if (x <= x1){
+                return LEFT;
+            }else if(x>=x2){
+                return RIGHT;
+            }
+        }
+        return -1;
+    }
+
 }

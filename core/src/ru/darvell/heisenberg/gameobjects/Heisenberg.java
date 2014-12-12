@@ -30,7 +30,6 @@ public class Heisenberg {
 	public void update(float delta) {
 		if (moveRight){
 			position.x += 100 * Gdx.graphics.getDeltaTime();
-//			position.x += 100 * delta;
 		}
 		if (moveLeft){
 			position.x -= 100 * Gdx.graphics.getDeltaTime();
@@ -68,8 +67,12 @@ public class Heisenberg {
 		moveRight = true;
 	}
 
-	public void stopMove(){
-		moveLeft = false;
+	public void stopMoveRight(){
 		moveRight = false;
 	}
+
+	public void stopMoveLeft(){
+		moveLeft = false;
+	}
+
 }

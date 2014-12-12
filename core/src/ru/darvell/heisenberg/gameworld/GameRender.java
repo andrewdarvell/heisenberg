@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.helpers.AssetLoader;
 
 /**
- * Created by darvell on 08.12.14.
+ * Класс отрисовывает картинку
  */
 public class GameRender {
 
@@ -18,8 +21,9 @@ public class GameRender {
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batcher;
 	private Heisenberg heisenberg;
+	private TiledMapRenderer tiledMapRenderer;
 
-	public GameRender(GameWorld gameWorld){
+	public GameRender(GameWorld gameWorld, TiledMap tiledMap){
 		this.gameWorld = gameWorld;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
@@ -29,6 +33,8 @@ public class GameRender {
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
+		tiledMapRenderer = new OrthoCachedTiledMapRenderer(tiledMap);
+
 		initGameObjects();
 	}
 
@@ -37,6 +43,10 @@ public class GameRender {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+		camera.update();
+		tiledMapRenderer.setView(camera);
+		tiledMapRenderer.render();
 		batcher.begin();
 		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
 		batcher.end();

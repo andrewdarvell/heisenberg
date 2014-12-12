@@ -6,15 +6,18 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Created by darvell on 08.12.14.
+ * Класс для загрузки ресурсов
  */
 public class AssetLoader {
 
     public static Animation heaisAnimation;
-    public  static TextureRegion textur;
+    public static TextureRegion textur;
+    public static TextureRegion sandBox;
 
     public static void load(){
 
+        Texture mainTExture = new Texture(Gdx.files.internal("data/tiles/main.png"));
+        sandBox = new TextureRegion(mainTExture, 0, 0, 32, 32);
 
         Texture texture1 = new Texture(Gdx.files.internal("data/heisenberg_r.png"));
         TextureRegion textureRegion1 = new TextureRegion(texture1,0,0,32,64);

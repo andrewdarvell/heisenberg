@@ -1,5 +1,6 @@
 package ru.darvell.heisenberg.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -11,6 +12,8 @@ public class Heisenberg {
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
+	private boolean moveLeft = false;
+	private boolean moveRight = false;
 
 	private float rotation; // Для обработки поворота птицы
 	private int width;
@@ -25,14 +28,13 @@ public class Heisenberg {
 	}
 
 	public void update(float delta) {
-
-//		velocity.add(acceleration.cpy().scl(delta));
-//
-//		if (velocity.y > 200) {
-//			velocity.y = 200;
-//		}
-//
-//		position.add(velocity.cpy().scl(delta));
+		if (moveRight){
+			position.x += 100 * Gdx.graphics.getDeltaTime();
+//			position.x += 100 * delta;
+		}
+		if (moveLeft){
+			position.x -= 100 * Gdx.graphics.getDeltaTime();
+		}
 
 	}
 
@@ -54,5 +56,20 @@ public class Heisenberg {
 
 	public int getHeight(){
 		return height;
+	}
+
+	public void moveLeft(){
+		moveRight = false;
+		moveLeft = true;
+	}
+
+	public void moveRight(){
+		moveLeft = false;
+		moveRight = true;
+	}
+
+	public void stopMove(){
+		moveLeft = false;
+		moveRight = false;
 	}
 }

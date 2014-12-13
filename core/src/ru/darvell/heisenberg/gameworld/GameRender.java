@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.helpers.AssetLoader;
 
@@ -22,6 +23,7 @@ public class GameRender {
 	private SpriteBatch batcher;
 	private Heisenberg heisenberg;
 	private TiledMapRenderer tiledMapRenderer;
+	Box2DDebugRenderer box2dRender;
 
 	public GameRender(GameWorld gameWorld, TiledMap tiledMap){
 		this.gameWorld = gameWorld;
@@ -34,19 +36,30 @@ public class GameRender {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		tiledMapRenderer = new OrthoCachedTiledMapRenderer(tiledMap);
+		box2dRender = new Box2DDebugRenderer();
 
 		initGameObjects();
 	}
 
-	public void render(float runTime) {
+	public void render(float delta) {
 //		Gdx.app.log("GameRenderer", "render");
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-		camera.update();
-		tiledMapRenderer.setView(camera);
+//		camera.update();
+//		tiledMapRenderer.setView(camera);
+//		tiledMapRenderer.render();
+//		batcher.begin();
+//		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
+//		batcher.end();
+
 		tiledMapRenderer.render();
+		tiledMapRenderer.setView(camera);
+		box2dRender.render(gameWorld.get2dBWorld(), camera.combined);
+		gameWorld.get2dBWorld().step(delta, 4, 4);
+
+
 		batcher.begin();
 		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
 		batcher.end();

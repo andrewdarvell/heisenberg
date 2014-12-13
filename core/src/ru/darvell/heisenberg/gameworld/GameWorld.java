@@ -1,28 +1,41 @@
 package ru.darvell.heisenberg.gameworld;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.gameobjects.Platform;
 
 import java.util.ArrayList;
 
 /**
- * Created by darvell on 08.12.14.
+ * Игровой мир со всеми объектами
  */
 public class GameWorld {
 
 	private Heisenberg heisenberg;
 	private ArrayList<Platform> platforms;
+	World world;
+
 	TiledMap map;
 
 	public GameWorld(int midPointY, TiledMap map){
-		heisenberg = new Heisenberg(100, 100, 32, 64);
+//		heisenberg = new Heisenberg(100, 100, 32, 64);
 		platforms = new ArrayList<Platform>();
 		this.map = map;
 		loadPlatforms();
+
+		//Инициализация Box2D
+		world = new World(new Vector2(0, -29), true);
+		//Создаем тело игроку
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
+		Body bodyPlayer = world.createBody(def);
+		heisenberg = new Heisenberg(bodyPlayer);
+		heisenberg.getBody().setTransform(100f, 100f, 0);
 
 	}
 
@@ -32,6 +45,10 @@ public class GameWorld {
 
 	public Heisenberg getHeisenberg(){
 		return this.heisenberg;
+	}
+
+	public World get2dBWorld(){
+		return world;
 	}
 
 	private void loadPlatforms(){

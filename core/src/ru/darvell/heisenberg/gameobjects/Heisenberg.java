@@ -1,8 +1,8 @@
 package ru.darvell.heisenberg.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  */
 public class Heisenberg {
 
-	private Vector2 velocity;
+//	private Vector2 velocity;
 
 	private boolean moveLeft = false;
 	private boolean moveRight = false;
@@ -22,33 +22,43 @@ public class Heisenberg {
 	private final int height = 64;
 
 	private Body heisBody;
-	public Fixture heisPhysicsFixture;
+	public Fixture playerPhysicsFixture;
+	public Fixture playerSensorFixture;
 
-	// TODO проработать размер Body для персонажа
+	//TODO проработать размер Body для персонажа
+	//TODO документировать
 	public Heisenberg(Body heisBody) {
 //		position = new Vector2(x, y);
-		velocity = new Vector2();
+
 
 		this.heisBody = heisBody;
 		PolygonShape poly = new PolygonShape();
-		poly.setAsBox(10f, 64f);
-		heisPhysicsFixture = heisBody.createFixture(poly, 3);
-		heisBody.setBullet(false);
-
+		poly.setAsBox(32f, 32f);
+		playerPhysicsFixture = heisBody.createFixture(poly, 0);
 		poly.dispose();
-		setFriction(10F);
+
+		CircleShape circle = new CircleShape();
+		circle.setRadius(32f);
+		circle.setPosition(new Vector2(0, -10f));
+		playerSensorFixture = heisBody.createFixture(circle, 0);
+		circle.dispose();
+
+		heisBody.setBullet(true);
+		setFriction(100F);
 
 	}
 
+	Vector2 velocity = new Vector2();
 	public void update(float delta) {
 //		if (moveRight){
 //			position.x += 100 * Gdx.graphics.getDeltaTime();
 //		}
 //		if (moveLeft){
 //			position.x -= 100 * Gdx.graphics.getDeltaTime();
-//		}
+////		}
 		Vector2 vel = heisBody.getLinearVelocity();
 		velocity.y = vel.y;
+		System.out.println(heisBody.getLinearVelocity());
 		heisBody.setLinearVelocity(velocity);
 		if (isJump){
 			heisBody.applyLinearImpulse(0f, 8f, heisBody.getPosition().x, heisBody.getPosition().y, true);
@@ -61,13 +71,13 @@ public class Heisenberg {
 	}
 
 	public void resetVelocity(){
-		getVelocity().x =0;
-		getVelocity().y =0;
+		getVelocity().x = 0;
+		getVelocity().y = 0;
 	}
 
-	public void onClick() {
-		velocity.y = -140;
-	}
+//	public void onClick() {
+//		velocity.y = -140;
+//	}
 
 	public float getX(){
 		return  heisBody.getPosition().x;
@@ -83,6 +93,10 @@ public class Heisenberg {
 
 	public Vector2 getVelocity(){
 		return velocity;
+	}
+
+	public void setVelocity(Vector2 velocity){
+		this.velocity = velocity;
 	}
 
 	public int getWidth(){
@@ -117,6 +131,6 @@ public class Heisenberg {
 
 	//Установка силы трения
 	public void setFriction(float f){
-		heisPhysicsFixture.setFriction(f);
+		playerPhysicsFixture.setFriction(f);
 	}
 }

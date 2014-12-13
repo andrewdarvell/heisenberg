@@ -16,6 +16,7 @@ import ru.darvell.heisenberg.helpers.InputHandler;
 /**
  * Тестовый уровень. Для того, чтобы
  */
+//TODO документировать
 public class TestLevel implements Screen {
 
 	final HeisenbergGame heisenbergGame;

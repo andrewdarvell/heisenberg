@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 
 //TODO Продумать генерацию платформ. Что то не совсем корректно генерируются объекты.
+//TODO документировать
 public class GameWorld {
 
 	private Heisenberg heisenberg;
@@ -35,9 +36,11 @@ public class GameWorld {
 		//Создаем тело игроку
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
+
 		Body bodyPlayer = world.createBody(def);
 		heisenberg = new Heisenberg(bodyPlayer);
-		heisenberg.getBody().setTransform(100f, 100f, 0);
+		heisenberg.getBody().setTransform(120f, 100f, 0);
+		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
 	}
 

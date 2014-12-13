@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  */
 
 //TODO Детальнее проработать физику
+//TODO документировать
 
 public class Platform {
     private Vector2 position;

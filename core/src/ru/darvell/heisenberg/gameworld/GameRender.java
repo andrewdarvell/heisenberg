@@ -15,6 +15,7 @@ import ru.darvell.heisenberg.helpers.AssetLoader;
 /**
  * Класс отрисовывает картинку
  */
+//TODO документировать
 public class GameRender {
 
 	private GameWorld gameWorld;
@@ -60,9 +61,9 @@ public class GameRender {
 		gameWorld.get2dBWorld().step(delta, 4, 4);
 
 
-		batcher.begin();
-		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
-		batcher.end();
+//		batcher.begin();
+//		batcher.draw(AssetLoader.textur, heisenberg.getX()-10.5f, heisenberg.getY()-27.5f, heisenberg.getWidth(), heisenberg.getHeight());
+//		batcher.end();
 	}
 
 	private void initGameObjects() {

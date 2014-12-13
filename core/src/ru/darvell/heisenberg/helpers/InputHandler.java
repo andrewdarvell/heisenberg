@@ -3,11 +3,14 @@ package ru.darvell.heisenberg.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 
 /**
- * Created by darvell on 08.12.14.
+ * Обработчик нажатий кнопок и экрана
  */
+//TODO документировать
+
 public class InputHandler implements InputProcessor {
     private Heisenberg heisenberg;
 
@@ -24,10 +27,13 @@ public class InputHandler implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode){
             case Input.Keys.LEFT:
-                heisenberg.moveLeft();
+//                heisenberg.moveLeft();
+//                System.out.println(heisenberg.getVelocity().x);
+                heisenberg.getVelocity().x = -5f;
                 break;
             case Input.Keys.RIGHT:
-                heisenberg.moveRight();
+//                System.out.println(heisenberg.getVelocity().x);
+                heisenberg.getVelocity().x = 5f;
                 break;
         }
         return false;
@@ -37,10 +43,15 @@ public class InputHandler implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode){
             case Input.Keys.LEFT:
-                heisenberg.stopMoveLeft();
+//                heisenberg.stopMoveLeft();
+//                heisenberg.resetVelocity();
                 break;
             case Input.Keys.RIGHT:
-                heisenberg.stopMoveRight();
+//                heisenberg.stopMoveRight();
+//                heisenberg.resetVelocity();
+                break;
+            case Input.Keys.SPACE:
+                heisenberg.jump();
                 break;
         }
         return false;

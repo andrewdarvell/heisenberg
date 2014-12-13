@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Обычнаяя платформа. На ней просто стоят.
  */
+
+//TODO Запилить физику к платформе
+
 public class Platform {
     private Vector2 position;
 

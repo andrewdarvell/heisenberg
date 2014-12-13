@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  */
 public class Heisenberg {
 
-	private Vector2 position;
 	private Vector2 velocity;
 
 	private boolean moveLeft = false;
@@ -25,13 +24,14 @@ public class Heisenberg {
 	private Body heisBody;
 	public Fixture heisPhysicsFixture;
 
+	// TODO проработать размер Body для персонажа
 	public Heisenberg(Body heisBody) {
 //		position = new Vector2(x, y);
 		velocity = new Vector2();
 
 		this.heisBody = heisBody;
 		PolygonShape poly = new PolygonShape();
-		poly.setAsBox(32f, 64f);
+		poly.setAsBox(10f, 64f);
 		heisPhysicsFixture = heisBody.createFixture(poly, 3);
 		heisBody.setBullet(false);
 

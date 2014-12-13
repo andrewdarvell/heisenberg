@@ -14,6 +14,8 @@ import java.util.ArrayList;
 /**
  * Игровой мир со всеми объектами
  */
+
+//TODO Продумать генерацию платформ. Что то не совсем корректно генерируются объекты.
 public class GameWorld {
 
 	private Heisenberg heisenberg;
@@ -26,7 +28,7 @@ public class GameWorld {
 //		heisenberg = new Heisenberg(100, 100, 32, 64);
 		platforms = new ArrayList<Platform>();
 		this.map = map;
-		loadPlatforms();
+
 
 		//Инициализация Box2D
 		world = new World(new Vector2(0, -29), true);
@@ -36,7 +38,7 @@ public class GameWorld {
 		Body bodyPlayer = world.createBody(def);
 		heisenberg = new Heisenberg(bodyPlayer);
 		heisenberg.getBody().setTransform(100f, 100f, 0);
-
+		loadPlatforms();
 	}
 
 	public void update(float delta){
@@ -56,8 +58,12 @@ public class GameWorld {
 		for (int i=0; i<platformsLayer.getWidth(); i++){
 			for (int j=0; j<platformsLayer.getHeight(); j++){
 				if (platformsLayer.getCell(i, j) != null){
-					Platform platform = new Platform(i*32, j*32);
+					BodyDef def = new BodyDef();
+					def.type = BodyDef.BodyType.StaticBody;
+					Body tmpBody = world.createBody(def);
+					Platform platform = new Platform(tmpBody);
 					platforms.add(platform);
+					platform.getBody().setTransform(i*32, j*32, 0);
 //					System.out.println("add platform");
 				}
 			}

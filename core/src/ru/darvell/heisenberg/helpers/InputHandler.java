@@ -38,6 +38,7 @@ public class InputHandler implements InputProcessor {
                 heisenberg.getVelocity().x = 5f;
                 break;
             case Input.Keys.SPACE:
+                heisenberg.setFriction(0F);
                 heisenberg.jump();
                 break;
         }

@@ -3,9 +3,8 @@ package ru.darvell.heisenberg.gameworld;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.gameobjects.Platform;
 
@@ -21,6 +20,7 @@ public class GameWorld {
 
 	private Heisenberg heisenberg;
 	private ArrayList<Platform> platforms;
+	private  boolean isGrounded;
 	World world;
 
 	TiledMap map;
@@ -46,11 +46,14 @@ public class GameWorld {
 
 	public void update(float delta){
 		heisenberg.update(delta);
+		heisenberg.setGrounded(isPlayerGrounded(delta));
 	}
 
 	public Heisenberg getHeisenberg(){
 		return this.heisenberg;
 	}
+
+
 
 	public World get2dBWorld(){
 		return world;
@@ -71,5 +74,36 @@ public class GameWorld {
 				}
 			}
 		}
+	}
+
+	private boolean isPlayerGrounded(float deltaTime) {
+		Array<Contact> contactList = world.getContactList();
+		for(int i = 0; i < contactList.size; i++) {
+			Contact contact = contactList.get(i);
+			if(contact.isTouching() && (contact.getFixtureA() == heisenberg.playerSensorFixture ||
+					contact.getFixtureB() == heisenberg.playerSensorFixture)) {
+
+				Vector2 pos = heisenberg.getPosition();
+				WorldManifold manifold = contact.getWorldManifold();
+				boolean below = true;
+				for(int j = 0; j < manifold.getNumberOfContactPoints(); j++) {
+					below &= (manifold.getPoints()[j].y < pos.y - 1.5f);
+				}
+
+				if(below) {
+//					if(contact.getFixtureA().getUserData() != null && contact.getFixtureA().getUserData().equals("p")) {
+//						groundedPlatform = (MovingPlatform)contact.getFixtureA().getBody().getUserData();
+//					}
+//
+//					if(contact.getFixtureB().getUserData() != null && contact.getFixtureB().getUserData().equals("p")) {
+//						groundedPlatform = (MovingPlatform)contact.getFixtureB().getBody().getUserData();
+//					}
+					return true;
+				}
+
+				return false;
+			}
+		}
+		return false;
 	}
 }

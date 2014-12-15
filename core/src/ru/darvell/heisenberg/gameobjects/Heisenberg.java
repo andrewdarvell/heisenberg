@@ -14,6 +14,7 @@ public class Heisenberg {
 	private boolean moveLeft = false;
 	private boolean moveRight = false;
 	private boolean isJump = false;
+	private boolean isGrounded = false;
 
 	private final int width = 32;
 	private final int height = 64;
@@ -140,5 +141,13 @@ public class Heisenberg {
 	public void setFriction(float f){
 //		playerPhysicsFixture.setFriction(f);
 		playerSensorFixture.setFriction(f);
+	}
+
+	public void setGrounded(boolean bool){
+		isGrounded = bool;
+	}
+
+	public boolean isGrounded(){
+		return  isGrounded;
 	}
 }

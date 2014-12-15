@@ -29,11 +29,16 @@ public class InputHandler implements InputProcessor {
             case Input.Keys.LEFT:
 //                heisenberg.moveLeft();
 //                System.out.println(heisenberg.getVelocity().x);
+                heisenberg.setFriction(0F);
                 heisenberg.getVelocity().x = -5f;
                 break;
             case Input.Keys.RIGHT:
 //                System.out.println(heisenberg.getVelocity().x);
+                heisenberg.setFriction(0F);
                 heisenberg.getVelocity().x = 5f;
+                break;
+            case Input.Keys.SPACE:
+                heisenberg.jump();
                 break;
         }
         return false;
@@ -44,15 +49,15 @@ public class InputHandler implements InputProcessor {
         switch (keycode){
             case Input.Keys.LEFT:
 //                heisenberg.stopMoveLeft();
-//                heisenberg.resetVelocity();
+                heisenberg.resetVelocity();
+                heisenberg.setFriction(10F);
                 break;
             case Input.Keys.RIGHT:
 //                heisenberg.stopMoveRight();
-//                heisenberg.resetVelocity();
+                heisenberg.setFriction(10F);
+                heisenberg.resetVelocity();
                 break;
-            case Input.Keys.SPACE:
-                heisenberg.jump();
-                break;
+
         }
         return false;
     }

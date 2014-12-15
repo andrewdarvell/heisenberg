@@ -32,7 +32,7 @@ public class GameWorld {
 
 
 		//Инициализация Box2D
-		world = new World(new Vector2(0, -29), true);
+		world = new World(new Vector2(0, -20), true);
 		//Создаем тело игроку
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;

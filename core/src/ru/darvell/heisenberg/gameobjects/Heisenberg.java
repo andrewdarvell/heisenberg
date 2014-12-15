@@ -1,10 +1,7 @@
 package ru.darvell.heisenberg.gameobjects;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by darvell on 08.12.14.
@@ -32,19 +29,26 @@ public class Heisenberg {
 
 
 		this.heisBody = heisBody;
-		PolygonShape poly = new PolygonShape();
-		poly.setAsBox(32f, 32f);
-		playerPhysicsFixture = heisBody.createFixture(poly, 0);
-		poly.dispose();
+//		PolygonShape poly = new PolygonShape();
+//		poly.setAsBox(32f, 32f);
+//		playerPhysicsFixture = heisBody.createFixture(poly, 1);
+//		poly.dispose();
 
 		CircleShape circle = new CircleShape();
 		circle.setRadius(32f);
 		circle.setPosition(new Vector2(0, -10f));
-		playerSensorFixture = heisBody.createFixture(circle, 0);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = circle;
+		fixtureDef.density = 0.0f;
+		fixtureDef.friction = 0.0f;
+//		fixtureDef.restitution = 20.0f;//  bouncy
+
+		playerSensorFixture = heisBody.createFixture(fixtureDef);
 		circle.dispose();
 
 		heisBody.setBullet(true);
-		setFriction(100F);
+//		setFriction(10F);
 
 	}
 
@@ -58,10 +62,13 @@ public class Heisenberg {
 ////		}
 		Vector2 vel = heisBody.getLinearVelocity();
 		velocity.y = vel.y;
-		System.out.println(heisBody.getLinearVelocity());
+//		System.out.println(playerSensorFixture.getFriction());
 		heisBody.setLinearVelocity(velocity);
+
 		if (isJump){
-			heisBody.applyLinearImpulse(0f, 8f, heisBody.getPosition().x, heisBody.getPosition().y, true);
+//			System.out.println("Jump");
+			heisBody.applyLinearImpulse(0f, 25f, heisBody.getPosition().x, heisBody.getPosition().y, true);
+//			heisBody.applyLinearImpulse(0f, 500000f, heisBody.getWorldCenter().x, heisBody.getWorldCenter().y, true);
 			isJump = false;
 		}
 	}
@@ -131,6 +138,7 @@ public class Heisenberg {
 
 	//Установка силы трения
 	public void setFriction(float f){
-		playerPhysicsFixture.setFriction(f);
+//		playerPhysicsFixture.setFriction(f);
+		playerSensorFixture.setFriction(f);
 	}
 }

@@ -1,6 +1,8 @@
 package ru.darvell.heisenberg.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,17 +13,23 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import ru.darvell.heisenberg.HeisenbergGame;
 import ru.darvell.heisenberg.gameworld.GameRender;
 import ru.darvell.heisenberg.gameworld.GameWorld;
+import ru.darvell.heisenberg.gameworld.WorldController;
 import ru.darvell.heisenberg.helpers.InputHandler;
 
 /**
  * Тестовый уровень. Для того, чтобы
  */
 //TODO документировать
-public class TestLevel implements Screen {
+public class TestLevel implements Screen, InputProcessor {
 
 	final HeisenbergGame heisenbergGame;
 	private GameWorld gameWorld;
 	private GameRender gameRender;
+	private WorldController controller;
+
+	public int width;
+	public int height;
+
 	private float runTime = 0;
 
 	private TiledMap tiledMap;
@@ -34,17 +42,22 @@ public class TestLevel implements Screen {
 
 
 		heisenbergGame = hsg;
+
 		gameWorld = new GameWorld(Gdx.graphics.getHeight(), tiledMap);
+
 		gameRender = new GameRender(gameWorld, tiledMap);
-		Gdx.input.setInputProcessor(new InputHandler(gameWorld.getHeisenberg()));
+		controller = new WorldController(gameWorld);
+		Gdx.input.setInputProcessor(this);
 
 	}
 
 	@Override
 	public void render(float delta) {
-		runTime += delta;
-		gameWorld.update(delta);
-		gameRender.render(runTime);
+
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		controller.update(delta);
+		gameRender.render(delta);
 	}
 
 	@Override
@@ -76,4 +89,59 @@ public class TestLevel implements Screen {
 	public void dispose() {
 
 	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		controller.resetWay();
+		switch (keycode){
+			case Input.Keys.LEFT:
+				controller.leftPressed();
+				break;
+			case Input.Keys.RIGHT:
+				controller.rightPressed();
+				break;
+			case Input.Keys.SPACE:
+				controller.upPressed();
+				break;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+//		controller.resetWay();
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
+
+
 }

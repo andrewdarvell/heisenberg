@@ -15,6 +15,7 @@ public class Heisenberg {
 	private boolean moveRight = false;
 	private boolean isJump = false;
 	private boolean isGrounded = false;
+	public final static float SPEED = 30f;
 
 	private final int width = 32;
 	private final int height = 64;
@@ -30,14 +31,14 @@ public class Heisenberg {
 
 
 		this.heisBody = heisBody;
-//		PolygonShape poly = new PolygonShape();
-//		poly.setAsBox(32f, 32f);
-//		playerPhysicsFixture = heisBody.createFixture(poly, 1);
-//		poly.dispose();
+		PolygonShape poly = new PolygonShape();
+		poly.setAsBox(16f, 32f);
+		playerPhysicsFixture = heisBody.createFixture(poly, 0);
+		poly.dispose();
 
 		CircleShape circle = new CircleShape();
-		circle.setRadius(32f);
-		circle.setPosition(new Vector2(0, -10f));
+		circle.setRadius(16f);
+		circle.setPosition(new Vector2(0, -25f));
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
@@ -55,23 +56,17 @@ public class Heisenberg {
 
 	Vector2 velocity = new Vector2();
 	public void update(float delta) {
-//		if (moveRight){
-//			position.x += 100 * Gdx.graphics.getDeltaTime();
-//		}
-//		if (moveLeft){
-//			position.x -= 100 * Gdx.graphics.getDeltaTime();
-////		}
+		//box.getPosition().add(velocity.tmp().mul(delta));
 		Vector2 vel = heisBody.getLinearVelocity();
+		//velocity = velocity.tmp().mul(delta);
 		velocity.y = vel.y;
-//		System.out.println(playerSensorFixture.getFriction());
 		heisBody.setLinearVelocity(velocity);
-
-		if (isJump){
-//			System.out.println("Jump");
-			heisBody.applyLinearImpulse(0f, 25f, heisBody.getPosition().x, heisBody.getPosition().y, true);
-//			heisBody.applyLinearImpulse(0f, 500000f, heisBody.getWorldCenter().x, heisBody.getWorldCenter().y, true);
+		if(isJump) {
+			heisBody.applyLinearImpulse(0, 50f, heisBody.getPosition().x,  heisBody.getPosition().y, true);
 			isJump = false;
 		}
+		//bounds.setX(position.x);
+		//bounds.setY(position.y);
 	}
 
 	public void jump(){

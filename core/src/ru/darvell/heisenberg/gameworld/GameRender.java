@@ -44,8 +44,7 @@ public class GameRender {
 
 	public void render(float delta) {
 //		Gdx.app.log("GameRenderer", "render");
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
 
 //		camera.update();
@@ -58,12 +57,13 @@ public class GameRender {
 		tiledMapRenderer.render();
 		tiledMapRenderer.setView(camera);
 		box2dRender.render(gameWorld.get2dBWorld(), camera.combined);
+
 		gameWorld.get2dBWorld().step(delta, 4, 4);
 
 
-//		batcher.begin();
-//		batcher.draw(AssetLoader.textur, heisenberg.getX()-10.5f, heisenberg.getY()-27.5f, heisenberg.getWidth(), heisenberg.getHeight());
-//		batcher.end();
+		batcher.begin();
+		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
+		batcher.end();
 	}
 
 	private void initGameObjects() {

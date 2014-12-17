@@ -5,10 +5,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import ru.darvell.heisenberg.gameobjects.Bullet;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.gameobjects.Platform;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Игровой мир со всеми объектами
@@ -17,9 +19,20 @@ import java.util.ArrayList;
 //TODO документировать
 public class GameWorld {
 
+	final public static short CATEGORY_HEISENBERG = 0x0001;
+	final public static short CATEGORY_BLOCK = 0x0002;
+
+	final public static short MASK_PLAYER = CATEGORY_HEISENBERG | CATEGORY_BLOCK;
+	final public static short MASK_BLOCK = CATEGORY_HEISENBERG | CATEGORY_BLOCK;
+
 	private Heisenberg heisenberg;
+
 	private ArrayList<Platform> platforms;
+	private LinkedList<Bullet> bullets;
+
 	private  boolean isGrounded;
+
+
 	World world;
 
 	TiledMap map;
@@ -41,6 +54,8 @@ public class GameWorld {
 		heisenberg.getBody().setTransform(30f, 30f, 0);
 		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
+		bullets = new LinkedList<Bullet>();
+		world.setContactFilter(new GameContactFilter());
 	}
 
 
@@ -65,13 +80,27 @@ public class GameWorld {
 					Platform platform = new Platform(tmpBody);
 					platforms.add(platform);
 //					System.out.println(i+":"+j);
-					platform.getBody().setTransform(i*3.2f+16, j*3.2f+16, 0);
+					platform.getBody().setTransform(i*Platform.WIDTH+16, j*Platform.HEIGHT+16, 0);
 //					System.out.println("add platform");
 				}
 			}
 		}
 	}
 
+	public void createBullet(){
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
+		Body tmpBody = world.createBody(def);
+		Bullet bullet = new Bullet(tmpBody, 1);
+		bullet.getBody().setTransform(31f, 30f, 0);
+		bullets.addLast(bullet);
+	}
+
+	public void updateBullets(){
+		for (Bullet bullet : bullets){
+			bullet.update();
+		}
+	}
 
 
 

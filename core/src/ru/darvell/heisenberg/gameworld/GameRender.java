@@ -29,8 +29,8 @@ public class GameRender {
 	public GameRender(GameWorld gameWorld, TiledMap tiledMap){
 		this.gameWorld = gameWorld;
 		camera = new OrthographicCamera();
-//		camera.setToOrtho(false, 100, 80);
-		camera.setToOrtho(false, 800, 600);
+		camera.setToOrtho(false, 100, 80);
+//		camera.setToOrtho(false, 800, 600);
 
 		batcher = new SpriteBatch();
 		batcher.setProjectionMatrix(camera.combined);
@@ -55,16 +55,17 @@ public class GameRender {
 //		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
 //		batcher.end();
 
-		tiledMapRenderer.render();
-		tiledMapRenderer.setView(camera);
+//		tiledMapRenderer.render();
+//		tiledMapRenderer.setView(camera);
 		box2dRender.render(gameWorld.get2dBWorld(), camera.combined);
 
 		gameWorld.get2dBWorld().step(delta, 4, 4);
 
 
-		batcher.begin();
-		batcher.draw(AssetLoader.textur, heisenberg.getX()*10-150, heisenberg.getY()*10-170, heisenberg.getWidth(), heisenberg.getHeight());
-		batcher.end();
+//		batcher.begin();
+//		batcher.draw(AssetLoader.textur, heisenberg.getX()*10-150, heisenberg.getY()*10-170, heisenberg.getWidth(), heisenberg.getHeight());
+//		batcher.end();
+//		System.out.println(Gdx.graphics.getFramesPerSecond());
 	}
 
 	private void initGameObjects() {

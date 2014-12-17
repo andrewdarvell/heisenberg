@@ -105,6 +105,9 @@ public class TestLevel implements Screen, InputProcessor {
 			case Input.Keys.SPACE:
 				controller.upPressed();
 				break;
+			case Input.Keys.E:
+				controller.ePressed();
+				break;
 		}
 		return false;
 	}
@@ -117,6 +120,9 @@ public class TestLevel implements Screen, InputProcessor {
 				break;
 			case Input.Keys.RIGHT:
 				controller.resetWay();
+				break;
+			case Input.Keys.E:
+				controller.eReleased();
 				break;
 		}
 		return false;

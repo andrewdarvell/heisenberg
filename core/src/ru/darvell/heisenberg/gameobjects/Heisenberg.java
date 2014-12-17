@@ -2,6 +2,7 @@ package ru.darvell.heisenberg.gameobjects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import ru.darvell.heisenberg.gameworld.GameWorld;
 
 /**
  * Created by darvell on 08.12.14.
@@ -15,7 +16,10 @@ public class Heisenberg {
 	private boolean moveRight = false;
 	private boolean isJump = false;
 	private boolean isGrounded = false;
+
 	public final static float SPEED = 20f;
+	public final static float REAL_WIDTH = 32;
+	public final static float REAL_HEIGHT = 32;
 
 	private final int width = 32;
 	private final int height = 64;
@@ -24,7 +28,7 @@ public class Heisenberg {
 	public Fixture playerPhysicsFixture;
 	public Fixture playerSensorFixture;
 
-	//TODO проработать размер Body для персонажа
+	//TODO подумать стоит ли делать руку персонажа с физикой
 	//TODO документировать
 	public Heisenberg(Body heisBody) {
 //		position = new Vector2(x, y);
@@ -49,6 +53,12 @@ public class Heisenberg {
 
 		playerSensorFixture = heisBody.createFixture(fixtureDef);
 		circle.dispose();
+
+		Filter f = new Filter();
+		f.categoryBits = GameWorld.CATEGORY_HEISENBERG;
+		f.maskBits = GameWorld.MASK_PLAYER;
+		playerSensorFixture.setFilterData(f);
+		playerPhysicsFixture.setFilterData(f);
 
 		heisBody.setBullet(true);
 //		setFriction(10F);

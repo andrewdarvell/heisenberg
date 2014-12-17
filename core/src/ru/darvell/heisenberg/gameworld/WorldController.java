@@ -11,14 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by darvell on 16.12.14.
+ * Контроллер мира. Обрабатывает всё что происходит
  */
 public class WorldController {
     GameWorld gameWorld;
     public static boolean grounded;
 
     enum Keys {
-        LEFT, RIGHT, UP, DOWN
+        LEFT, RIGHT, UP, DOWN, E
     }
     static Map<Keys, Boolean> keys = new HashMap<Keys, Boolean>();
 
@@ -27,6 +27,7 @@ public class WorldController {
         keys.put(Keys.RIGHT, false);
         keys.put(Keys.UP, false);
         keys.put(Keys.DOWN, false);
+        keys.put(Keys.E, false);
     }
 
     public WorldController(GameWorld gameWorld){
@@ -35,9 +36,11 @@ public class WorldController {
 
     public void update(float delta) {
         grounded = isPlayerGrounded(Gdx.graphics.getDeltaTime());
+//        System.out.println();
+
         processInput();
 
-
+        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
     }
 
@@ -66,6 +69,14 @@ public class WorldController {
 
     public void upReleased() {
         keys.get(keys.put(Keys.UP, false));
+    }
+
+    public void ePressed(){
+        keys.get(keys.put(Keys.E, true));
+    }
+
+    public void eReleased(){
+        keys.get(keys.put(Keys.E, false));
     }
 
     public void resetWay(){
@@ -137,6 +148,11 @@ public class WorldController {
                 (!keys.get(Keys.LEFT) && (!keys.get(Keys.RIGHT)))) {
 
             player.getVelocity().x = 0;
+        }
+
+        if (keys.get(Keys.E)){
+            gameWorld.createBullet();
+            eReleased();
         }
 
     }

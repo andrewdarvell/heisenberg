@@ -29,6 +29,7 @@ public class GameRender {
 	public GameRender(GameWorld gameWorld, TiledMap tiledMap){
 		this.gameWorld = gameWorld;
 		camera = new OrthographicCamera();
+//		camera.setToOrtho(false, 100, 80);
 		camera.setToOrtho(false, 800, 600);
 
 		batcher = new SpriteBatch();
@@ -62,7 +63,7 @@ public class GameRender {
 
 
 		batcher.begin();
-		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
+		batcher.draw(AssetLoader.textur, heisenberg.getX()*10-150, heisenberg.getY()*10-170, heisenberg.getWidth(), heisenberg.getHeight());
 		batcher.end();
 	}
 

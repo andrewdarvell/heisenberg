@@ -38,7 +38,7 @@ public class GameWorld {
 
 		Body bodyPlayer = world.createBody(def);
 		heisenberg = new Heisenberg(bodyPlayer);
-		heisenberg.getBody().setTransform(120f, 100f, 0);
+		heisenberg.getBody().setTransform(30f, 30f, 0);
 		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
 	}
@@ -64,8 +64,8 @@ public class GameWorld {
 					Body tmpBody = world.createBody(def);
 					Platform platform = new Platform(tmpBody);
 					platforms.add(platform);
-					System.out.println(i+":"+j);
-					platform.getBody().setTransform(i*32f+16, j*32f+16, 0);
+//					System.out.println(i+":"+j);
+					platform.getBody().setTransform(i*3.2f+16, j*3.2f+16, 0);
 //					System.out.println("add platform");
 				}
 			}

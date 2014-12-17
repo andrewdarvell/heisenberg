@@ -92,12 +92,14 @@ public class TestLevel implements Screen, InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		controller.resetWay();
+
 		switch (keycode){
 			case Input.Keys.LEFT:
+				controller.resetWay();
 				controller.leftPressed();
 				break;
 			case Input.Keys.RIGHT:
+				controller.resetWay();
 				controller.rightPressed();
 				break;
 			case Input.Keys.SPACE:
@@ -109,7 +111,14 @@ public class TestLevel implements Screen, InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-//		controller.resetWay();
+		switch (keycode){
+			case Input.Keys.LEFT:
+				controller.resetWay();
+				break;
+			case Input.Keys.RIGHT:
+				controller.resetWay();
+				break;
+		}
 		return false;
 	}
 

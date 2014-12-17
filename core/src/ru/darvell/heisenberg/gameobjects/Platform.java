@@ -18,14 +18,14 @@ public class Platform {
     private Body platBody;
     public Fixture platFixture;
 
-    private final float width = 32f;
-    private final float height = 32f;
+    private final float width = 3.2f;
+    private final float height = 3.2f;
 
     public Platform(Body platBody){
 //        position = new Vector2();
         this.platBody = platBody;
         PolygonShape poly = new PolygonShape();
-        poly.setAsBox(16f, 16f);
+        poly.setAsBox(1.6f, 1.6f);
         platFixture = platBody.createFixture(poly, 3);
         platBody.setBullet(false);
 

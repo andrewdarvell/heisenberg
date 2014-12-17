@@ -15,7 +15,7 @@ public class Heisenberg {
 	private boolean moveRight = false;
 	private boolean isJump = false;
 	private boolean isGrounded = false;
-	public final static float SPEED = 30f;
+	public final static float SPEED = 20f;
 
 	private final int width = 32;
 	private final int height = 64;
@@ -32,13 +32,14 @@ public class Heisenberg {
 
 		this.heisBody = heisBody;
 		PolygonShape poly = new PolygonShape();
-		poly.setAsBox(16f, 32f);
+//		poly.setAsBox(5f, 20f);
+		poly.setAsBox(0.5f, 2f);
 		playerPhysicsFixture = heisBody.createFixture(poly, 0);
 		poly.dispose();
 
 		CircleShape circle = new CircleShape();
-		circle.setRadius(16f);
-		circle.setPosition(new Vector2(0, -25f));
+		circle.setRadius(0.5f);
+		circle.setPosition(new Vector2(0, -1.9f));
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;

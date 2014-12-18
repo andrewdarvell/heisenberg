@@ -21,6 +21,9 @@ public class WorldController {
     enum Keys {
         LEFT, RIGHT, UP, DOWN, E
     }
+
+
+
     static Map<Keys, Boolean> keys = new HashMap<Keys, Boolean>();
 
     static {
@@ -43,7 +46,8 @@ public class WorldController {
 
 //        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
-        gameWorld.deleteBullet();
+        gameWorld.delDeadBullets();
+        gameWorld.updateEnemies();
     }
 
     //флаг устанавливаем, что движемся влево
@@ -117,18 +121,6 @@ public class WorldController {
                 return false;
             }
         }
-        return false;
-    }
-
-    private boolean testEnemy(){
-        Array<Contact> contactList = gameWorld.get2dBWorld().getContactList();
-        for (Contact contact:contactList){
-            if(contact.isTouching()) {
-                System.out.println(contact.getFixtureA().getBody().getUserData().toString());
-
-            }
-        }
-
         return false;
     }
 

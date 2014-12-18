@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import ru.darvell.heisenberg.gameobjects.Bullet;
 import ru.darvell.heisenberg.gameobjects.Enemy;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
@@ -32,12 +31,11 @@ public class GameWorld {
 	final public static short MASK_ENEMY = CATEGORY_BULLET | CATEGORY_BLOCK;
 
 	private Heisenberg heisenberg;
-	private Enemy enemy;
 
 	private ArrayList<Platform> platforms;
 	private LinkedList<Bullet> bullets;
+	private LinkedList<Enemy> enemies;
 
-	public static Bullet bulletDel;
 
 	private  boolean isGrounded;
 
@@ -64,35 +62,18 @@ public class GameWorld {
 		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
 		bullets = new LinkedList<Bullet>();
-		enemy = createEnemy();
+		enemies = new LinkedList<Enemy>();
+		createEnemy();
 
 		world.setContactFilter(new GameContactFilter());
 
 
 	}
 
-	public static void setBulletDel(Bullet bullet){
-		bulletDel = bullet;
-	}
-
-	public void deleteBullet(){
-		if (bulletDel != null){
-			bullets.remove(bulletDel);
-			world.destroyBody(bulletDel.getBody());
-			bulletDel = null;
-			System.out.println("remove bullet");
-		}
-	}
-
-	public Enemy getEnemy(){
-		return enemy;
-	}
-
 
 	public Heisenberg getHeisenberg(){
 		return this.heisenberg;
 	}
-
 
 
 	public World get2dBWorld(){
@@ -129,14 +110,14 @@ public class GameWorld {
 		bullets.addLast(bullet);
 	}
 
-	public Enemy createEnemy(){
+	public void createEnemy(){
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
 		Enemy tmpEnemy = new Enemy(tmpBody);
 		tmpEnemy.getBody().setTransform(50f, 50f, 0);
 		tmpEnemy.getBody().setFixedRotation(true);
-		return tmpEnemy;
+		enemies.addLast(tmpEnemy);
 	}
 
 	public void updateBullets(){
@@ -144,6 +125,26 @@ public class GameWorld {
 			bullet.update();
 		}
 	}
+
+	public void delDeadBullets(){
+		for (Bullet bullet : bullets){
+			if (!bullet.getStatus()){
+				world.destroyBody(bullet.getBody());
+				bullets.remove(bullet);
+			}
+		}
+	}
+
+	public void updateEnemies(){
+		for (Enemy enemy: enemies){
+			if (!enemy.getStatus()){
+				world.destroyBody(enemy.getBody());
+				enemies.remove(enemy);
+			}
+		}
+	}
+
+
 
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import ru.darvell.heisenberg.gameobjects.Bullet;
+import ru.darvell.heisenberg.gameobjects.Enemy;
 
 /**
  * Класс для отслеживания коллизий
@@ -38,11 +39,19 @@ public class GameContactFilter implements ContactFilter{
 
 		if((filterA.categoryBits == GameWorld.CATEGORY_ENEMY && filterB.categoryBits == GameWorld.CATEGORY_BULLET) ||
 				(filterB.categoryBits == GameWorld.CATEGORY_ENEMY && filterA.categoryBits == GameWorld.CATEGORY_BULLET )) {
+
 			if (filterA.categoryBits == GameWorld.CATEGORY_BULLET){
-				GameWorld.setBulletDel((Bullet) fixtureA.getUserData());
+				Bullet bullet = (Bullet)fixtureA.getUserData();
+				Enemy enemy = (Enemy)fixtureB.getUserData();
+				bullet.setStatus(false);
+				enemy.hit();
+
 			}
 			if (filterB.categoryBits == GameWorld.CATEGORY_BULLET){
-				GameWorld.setBulletDel((Bullet) fixtureB.getUserData());
+				Bullet bullet = (Bullet)fixtureB.getUserData();
+				Enemy enemy = (Enemy)fixtureA.getUserData();
+				bullet.setStatus(false);
+				enemy.hit();
 			}
 
 			return true;

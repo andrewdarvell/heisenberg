@@ -10,8 +10,6 @@ import ru.darvell.heisenberg.gameworld.GameWorld;
  */
 public class Heisenberg {
 
-//	private Vector2 velocity;
-
 	private boolean moveLeft = false;
 	private boolean moveRight = false;
 	private boolean isJump = false;
@@ -29,11 +27,11 @@ public class Heisenberg {
 	public Fixture playerPhysicsFixture;
 	public Fixture playerSensorFixture;
 
+	Vector2 velocity = new Vector2();
+
 	//TODO подумать стоит ли делать руку персонажа с физикой
 	//TODO документировать
 	public Heisenberg(Body heisBody) {
-//		position = new Vector2(x, y);
-
 
 		this.heisBody = heisBody;
 		PolygonShape poly = new PolygonShape();
@@ -66,19 +64,15 @@ public class Heisenberg {
 
 	}
 
-	Vector2 velocity = new Vector2();
+
 	public void update(float delta) {
-		//box.getPosition().add(velocity.tmp().mul(delta));
 		Vector2 vel = heisBody.getLinearVelocity();
-		//velocity = velocity.tmp().mul(delta);
 		velocity.y = vel.y;
 		heisBody.setLinearVelocity(velocity);
 		if(isJump) {
 			heisBody.applyLinearImpulse(0, 50f, heisBody.getPosition().x,  heisBody.getPosition().y, true);
 			isJump = false;
 		}
-		//bounds.setX(position.x);
-		//bounds.setY(position.y);
 	}
 
 	public void jump(){
@@ -88,18 +82,6 @@ public class Heisenberg {
 	public void resetVelocity(){
 		getVelocity().x = 0;
 		getVelocity().y = 0;
-	}
-
-//	public void onClick() {
-//		velocity.y = -140;
-//	}
-
-	public float getX(){
-		return  heisBody.getPosition().x;
-	}
-
-	public float getY(){
-		return  heisBody.getPosition().y;
 	}
 
 	public Vector2 getPosition(){
@@ -146,7 +128,7 @@ public class Heisenberg {
 
 	//Установка силы трения
 	public void setFriction(float f){
-//		playerPhysicsFixture.setFriction(f);
+		playerPhysicsFixture.setFriction(f);
 		playerSensorFixture.setFriction(f);
 	}
 

@@ -7,16 +7,21 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import ru.darvell.heisenberg.gameworld.GameWorld;
 
-import java.util.Objects;
-
 
 /**
  * Сферический противник в вакууме
  */
 public class Enemy {
 
+	public static final int LIFES_COUNT = 5;
+
 	Body enemyBody;
 	public Fixture enemyFixture;
+
+	private int lifes;
+	private boolean isAlive;
+
+
 
 	public Enemy(Body body){
 
@@ -33,10 +38,13 @@ public class Enemy {
 
 		enemyFixture.setFilterData(filter);
 
-		enemyBody.setBullet(true);
 
-		String s = "enemy1";
-		enemyBody.setUserData(s);
+		enemyBody.setBullet(true);
+		enemyFixture.setUserData(this);
+
+		lifes = LIFES_COUNT;
+		isAlive = true;
+
 
 	}
 
@@ -46,5 +54,16 @@ public class Enemy {
 
 	public Vector2 getPosition(){
 		return enemyBody.getPosition();
+	}
+
+	public void hit(){
+		lifes -= 1;
+		if (lifes == 0){
+			isAlive = false;
+		}
+	}
+
+	public boolean getStatus(){
+		return isAlive;
 	}
 }

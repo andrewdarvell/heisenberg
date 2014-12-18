@@ -11,9 +11,6 @@ import ru.darvell.heisenberg.gameobjects.Enemy;
  */
 public class GameContactFilter implements ContactFilter{
 
-	public String contact = "";
-
-
 
 	@Override
 	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
@@ -56,8 +53,6 @@ public class GameContactFilter implements ContactFilter{
 
 			return true;
 		}
-//		System.out.println(filterA.categoryBits);
-//		System.out.println(filterB.categoryBits);
 
 		return false;
 	}

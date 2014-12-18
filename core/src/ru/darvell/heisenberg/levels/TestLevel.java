@@ -22,6 +22,8 @@ import ru.darvell.heisenberg.helpers.InputHandler;
 //TODO документировать
 public class TestLevel implements Screen, InputProcessor {
 
+
+
 	final HeisenbergGame heisenbergGame;
 	private GameWorld gameWorld;
 	private GameRender gameRender;
@@ -135,11 +137,39 @@ public class TestLevel implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		switch (findTouch(screenX, screenY)){
+			case Input.Keys.LEFT:
+				controller.resetWay();
+				controller.leftPressed();
+				break;
+			case Input.Keys.RIGHT:
+				controller.resetWay();
+				controller.rightPressed();
+				break;
+			case Input.Keys.SPACE:
+				controller.upPressed();
+				break;
+			case Input.Keys.E:
+				controller.ePressed();
+				break;
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		switch (findTouch(screenX, screenY)){
+			case Input.Keys.LEFT:
+				controller.resetWay();
+				break;
+			case Input.Keys.RIGHT:
+				controller.resetWay();
+				break;
+			case Input.Keys.E:
+				controller.eReleased();
+				break;
+		}
 		return false;
 	}
 
@@ -158,5 +188,24 @@ public class TestLevel implements Screen, InputProcessor {
 		return false;
 	}
 
+	private int findTouch(int x, int y){
+		int scrY = Gdx.graphics.getHeight();
+		int scrX = Gdx.graphics.getWidth();
+		float y0 = scrY / 2;
+		float x1 = scrX / 100 * 30;
+		float x2 = scrX - x1;
+		if(y >= y0){
+			if (x <= x1){
+				return Input.Keys.LEFT;
+			}else if(x>=x2){
+				return Input.Keys.RIGHT;
+			}else {
+				return Input.Keys.E;
+			}
+		}else if (y < y0){
+			return Input.Keys.SPACE;
+		}
+		return -1;
+	}
 
 }

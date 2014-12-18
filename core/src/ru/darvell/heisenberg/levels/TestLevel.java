@@ -22,8 +22,6 @@ import ru.darvell.heisenberg.helpers.InputHandler;
 //TODO документировать
 public class TestLevel implements Screen, InputProcessor {
 
-
-
 	final HeisenbergGame heisenbergGame;
 	private GameWorld gameWorld;
 	private GameRender gameRender;
@@ -32,10 +30,7 @@ public class TestLevel implements Screen, InputProcessor {
 	public int width;
 	public int height;
 
-	private float runTime = 0;
-
 	private TiledMap tiledMap;
-
 
 
 	public TestLevel(final HeisenbergGame hsg){
@@ -55,7 +50,6 @@ public class TestLevel implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
-
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		controller.update(delta);
@@ -94,7 +88,6 @@ public class TestLevel implements Screen, InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-
 		switch (keycode){
 			case Input.Keys.LEFT:
 				controller.resetWay();

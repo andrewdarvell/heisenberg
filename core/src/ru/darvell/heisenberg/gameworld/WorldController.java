@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.Array;
-import ru.darvell.heisenberg.gameobjects.Enemy;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class WorldController {
 //        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
         gameWorld.delDeadBullets();
-        gameWorld.updateEnemies();
+        gameWorld.updateEnemies(delta);
     }
 
     //флаг устанавливаем, что движемся влево
@@ -161,7 +160,7 @@ public class WorldController {
         }
 
         if (keys.get(Keys.E)){
-            gameWorld.createBullet();
+            gameWorld.createBulletPlayer();
             eReleased();
         }
 

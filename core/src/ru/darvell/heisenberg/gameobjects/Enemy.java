@@ -14,12 +14,21 @@ import ru.darvell.heisenberg.gameworld.GameWorld;
 public class Enemy {
 
 	public static final int LIFES_COUNT = 5;
+	public static final float SPEED = 5f;
+	public static final int RELOAD_TIME = 200;
+
+	private int reloading = 0;
+	private boolean border = false;
+	private int face = -1;
 
 	Body enemyBody;
 	public Fixture enemyFixture;
 
+
 	private int lifes;
 	private boolean isAlive;
+	private int direction = 1;
+	private boolean needBullet;
 
 
 
@@ -66,4 +75,58 @@ public class Enemy {
 	public boolean getStatus(){
 		return isAlive;
 	}
+
+	public int getDirection(){
+		return direction;
+	}
+
+	public void setDirection(int direction){
+		this.direction = direction;
+	}
+
+	public boolean getNeedBullet(){
+		if (needBullet){
+			needBullet = false;
+			reloading = RELOAD_TIME;
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public void update(float delta, Vector2 playerPosition){
+		if (reloading > 0){
+			reloading--;
+		}
+		Vector2 pos = enemyBody.getPosition();
+
+		if (playerPosition.x <= pos.x){
+			face = -1;
+		}else{
+			face = 1;
+		}
+
+		double distancePlayer = Math.abs(Math.pow(playerPosition.x - pos.x, 2) + Math.pow(playerPosition.y - pos.y, 2));
+		Vector2 vel = new Vector2();
+		vel.y = enemyBody.getLinearVelocity().y;
+		vel.x = enemyBody.getLinearVelocity().x;
+		if (distancePlayer < 120){
+			vel.x = SPEED * face;
+		}else{
+			vel.x = 0;
+		}
+		if (distancePlayer > 120 && distancePlayer < 200){
+			if (reloading == 0) {
+				needBullet = true;
+			}
+		}
+
+		enemyBody.setLinearVelocity(vel);
+	}
+
+	public int getFace() {
+		return face;
+	}
+
+
 }

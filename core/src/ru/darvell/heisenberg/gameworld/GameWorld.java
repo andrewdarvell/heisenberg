@@ -98,7 +98,7 @@ public class GameWorld {
 		}
 	}
 
-	public void createBullet(){
+	public void createBulletPlayer(){
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
@@ -109,6 +109,20 @@ public class GameWorld {
 		bullet.getBody().setTransform(position.x, position.y, 0);
 		bullets.addLast(bullet);
 	}
+
+	public void createBulletEnemy(Enemy enemy){
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
+		Body tmpBody = world.createBody(def);
+		Bullet bullet = new Bullet(tmpBody, heisenberg.getDirection());
+		Vector2 position = enemy.getPosition();
+		position.x+=2f * enemy.getFace();
+		position.y+=1f;
+		bullet.getBody().setTransform(position.x, position.y, 0);
+		bullets.addLast(bullet);
+	}
+
+
 
 	public void createEnemy(){
 		BodyDef def = new BodyDef();
@@ -135,11 +149,16 @@ public class GameWorld {
 		}
 	}
 
-	public void updateEnemies(){
+	public void updateEnemies(float delta){
 		for (Enemy enemy: enemies){
 			if (!enemy.getStatus()){
 				world.destroyBody(enemy.getBody());
 				enemies.remove(enemy);
+			}else{
+				if (enemy.getNeedBullet()){
+					createBulletEnemy(enemy);
+				}
+				enemy.update(delta, heisenberg.getPosition());
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.Array;
+import ru.darvell.heisenberg.gameobjects.Enemy;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 
 import java.util.HashMap;
@@ -40,8 +41,9 @@ public class WorldController {
 
         processInput();
 
-        gameWorld.updateBullets();
+//        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
+        gameWorld.deleteBullet();
     }
 
     //флаг устанавливаем, что движемся влево
@@ -118,14 +120,30 @@ public class WorldController {
         return false;
     }
 
+    private boolean testEnemy(){
+        Array<Contact> contactList = gameWorld.get2dBWorld().getContactList();
+        for (Contact contact:contactList){
+            if(contact.isTouching()) {
+                System.out.println(contact.getFixtureA().getBody().getUserData().toString());
+
+            }
+        }
+
+        return false;
+    }
+
     private void processInput() {
 
         Heisenberg player = gameWorld.getHeisenberg();
-        if (keys.get(Keys.LEFT))
-            player.getVelocity().x =- Heisenberg.SPEED;
+        if (keys.get(Keys.LEFT)) {
+            player.getVelocity().x = -Heisenberg.SPEED;
+            player.setDirection(-1);
+        }
 
-        if (keys.get(Keys.RIGHT))
+        if (keys.get(Keys.RIGHT)){
             player.getVelocity().x = Heisenberg.SPEED;
+            player.setDirection(1);
+        }
 
         if(!grounded)
             player.setFriction(0F);

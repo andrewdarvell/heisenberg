@@ -16,6 +16,7 @@ public class Heisenberg {
 	private boolean moveRight = false;
 	private boolean isJump = false;
 	private boolean isGrounded = false;
+	private int direction = 1;
 
 	public final static float SPEED = 20f;
 	public final static float REAL_WIDTH = 32;
@@ -56,7 +57,7 @@ public class Heisenberg {
 
 		Filter f = new Filter();
 		f.categoryBits = GameWorld.CATEGORY_HEISENBERG;
-		f.maskBits = GameWorld.MASK_PLAYER;
+		f.maskBits = GameWorld.MASK_HEISENBERG;
 		playerSensorFixture.setFilterData(f);
 		playerPhysicsFixture.setFilterData(f);
 
@@ -155,5 +156,13 @@ public class Heisenberg {
 
 	public boolean isGrounded(){
 		return  isGrounded;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 }

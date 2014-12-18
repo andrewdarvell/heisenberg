@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import ru.darvell.heisenberg.gameobjects.Bullet;
+import ru.darvell.heisenberg.gameobjects.Enemy;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
 import ru.darvell.heisenberg.gameobjects.Platform;
 
@@ -21,14 +22,22 @@ public class GameWorld {
 
 	final public static short CATEGORY_HEISENBERG = 0x0001;
 	final public static short CATEGORY_BLOCK = 0x0002;
+	final public static short CATEGORY_BULLET = 0x0004;
+	final public static short CATEGORY_ENEMY = 0x0008;
 
-	final public static short MASK_PLAYER = CATEGORY_HEISENBERG | CATEGORY_BLOCK;
-	final public static short MASK_BLOCK = CATEGORY_HEISENBERG | CATEGORY_BLOCK;
+
+	final public static short MASK_HEISENBERG = CATEGORY_BLOCK;
+	final public static short MASK_BLOCK = CATEGORY_HEISENBERG;
+	final public static short MASK_BULLET = CATEGORY_BLOCK;
+	final public static short MASK_ENEMY = CATEGORY_BULLET | CATEGORY_BLOCK;
 
 	private Heisenberg heisenberg;
+	private Enemy enemy;
 
 	private ArrayList<Platform> platforms;
 	private LinkedList<Bullet> bullets;
+
+	public static Bullet bulletDel;
 
 	private  boolean isGrounded;
 
@@ -55,7 +64,28 @@ public class GameWorld {
 		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
 		bullets = new LinkedList<Bullet>();
+		enemy = createEnemy();
+
 		world.setContactFilter(new GameContactFilter());
+
+
+	}
+
+	public static void setBulletDel(Bullet bullet){
+		bulletDel = bullet;
+	}
+
+	public void deleteBullet(){
+		if (bulletDel != null){
+			bullets.remove(bulletDel);
+			world.destroyBody(bulletDel.getBody());
+			bulletDel = null;
+			System.out.println("remove bullet");
+		}
+	}
+
+	public Enemy getEnemy(){
+		return enemy;
 	}
 
 
@@ -91,9 +121,22 @@ public class GameWorld {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
-		Bullet bullet = new Bullet(tmpBody, 1);
-		bullet.getBody().setTransform(31f, 30f, 0);
+		Bullet bullet = new Bullet(tmpBody, heisenberg.getDirection());
+		Vector2 position = heisenberg.getPosition();
+		position.x+=2f * heisenberg.getDirection();
+		position.y+=1f;
+		bullet.getBody().setTransform(position.x, position.y, 0);
 		bullets.addLast(bullet);
+	}
+
+	public Enemy createEnemy(){
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
+		Body tmpBody = world.createBody(def);
+		Enemy tmpEnemy = new Enemy(tmpBody);
+		tmpEnemy.getBody().setTransform(50f, 50f, 0);
+		tmpEnemy.getBody().setFixedRotation(true);
+		return tmpEnemy;
 	}
 
 	public void updateBullets(){

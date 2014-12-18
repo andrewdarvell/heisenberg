@@ -32,13 +32,12 @@ public class Platform {
         this.platBody = platBody;
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(1.6f, 1.6f);
-        platFixture = platBody.createFixture(poly, 3);
+        platFixture = platBody.createFixture(poly, 0);
         platBody.setBullet(false);
 
         Filter f = new Filter();
         f.categoryBits = GameWorld.CATEGORY_BLOCK;
         f.maskBits = GameWorld.MASK_BLOCK;
-        platFixture.setFilterData(f);
         platFixture.setFilterData(f);
 
 //        position.x = startX;

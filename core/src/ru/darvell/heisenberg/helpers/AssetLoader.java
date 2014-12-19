@@ -13,6 +13,8 @@ public class AssetLoader {
     public static Animation heaisAnimation;
     public static TextureRegion textur;
     public static TextureRegion sandBox;
+    public static TextureRegion bullet_r;
+    public static TextureRegion map;
 
     public static void load(){
 
@@ -23,6 +25,12 @@ public class AssetLoader {
         TextureRegion textureRegion1 = new TextureRegion(texture1,0,0,32,64);
 
         textur = new TextureRegion(texture1,0,0,32,64);
+
+        Texture bulletTexture = new Texture(Gdx.files.internal("data/bullet_r.png"));
+        bullet_r = new TextureRegion(bulletTexture, 0, 0, 5, 3);
+
+        Texture mapTexture = new Texture(Gdx.files.internal("data/maps/testmap.png"));
+        map = new TextureRegion(mapTexture, 0, 0, 800, 400);
 
         Texture texture2 = new Texture(Gdx.files.internal("data/heisenberg_r_1.png"));
         TextureRegion textureRegion2 = new TextureRegion(texture2,0,0,32,64);

@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -31,6 +33,8 @@ public class TestLevel implements Screen, InputProcessor {
 	public int height;
 
 	private TiledMap tiledMap;
+	FPSLogger logger = new FPSLogger();
+
 
 
 	public TestLevel(final HeisenbergGame hsg){
@@ -45,15 +49,18 @@ public class TestLevel implements Screen, InputProcessor {
 		gameRender = new GameRender(gameWorld, tiledMap);
 		controller = new WorldController(gameWorld);
 		Gdx.input.setInputProcessor(this);
+//		GLProfiler.enable();
 
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 		controller.update(delta);
 		gameRender.render(delta);
+
+		logger.log();
 	}
 
 	@Override

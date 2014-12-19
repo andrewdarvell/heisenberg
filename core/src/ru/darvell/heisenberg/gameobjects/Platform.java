@@ -34,6 +34,7 @@ public class Platform {
         poly.setAsBox(1.6f, 1.6f);
         platFixture = platBody.createFixture(poly, 0);
         platBody.setBullet(false);
+        poly.dispose();
 
         Filter f = new Filter();
         f.categoryBits = GameWorld.CATEGORY_BLOCK;

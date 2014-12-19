@@ -153,4 +153,12 @@ public class Heisenberg {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
+
+	public float getX(){
+		return heisBody.getPosition().x;
+	}
+
+	public float getY(){
+		return heisBody.getPosition().y;
+	}
 }

@@ -122,5 +122,11 @@ public class Enemy {
 		return face;
 	}
 
+	public float getX(){
+		return enemyBody.getPosition().x;
+	}
 
+	public float getY(){
+		return enemyBody.getPosition().y;
+	}
 }

@@ -11,6 +11,7 @@ public class Bullet {
 	private boolean isAllive;
 	public static float SPEED = 500f;
 
+
 	Body bulletBody;
 //	public Fixture bulletFixture;
 	Vector2 velosity = new Vector2();
@@ -36,6 +37,13 @@ public class Bullet {
 
 	public void update(){
 //		bulletBody.setLinearVelocity(velosity);
+	}
+	public float getX(){
+		return bulletBody.getPosition().x;
+	}
+
+	public float getY(){
+		return bulletBody.getPosition().y;
 	}
 
 }

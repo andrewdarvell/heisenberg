@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import ru.darvell.heisenberg.gameobjects.*;
 
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ public class GameWorld {
 
 	private Heisenberg heisenberg;
 
-	private ArrayList<Platform> platforms;
-	private LinkedList<Bullet> bullets;
-	private LinkedList<Enemy> enemies;
+	private Array<Platform> platforms;
+	private Array<Bullet> bullets;
+	private Array<Enemy> enemies;
 
 
 	private  boolean isGrounded;
@@ -47,7 +48,7 @@ public class GameWorld {
 
 	public GameWorld(int midPointY, TiledMap map){
 //		heisenberg = new Heisenberg(100, 100, 32, 64);
-		platforms = new ArrayList<Platform>();
+		platforms = new Array<Platform>();
 		this.map = map;
 
 
@@ -62,20 +63,18 @@ public class GameWorld {
 		heisenberg.getBody().setTransform(30f, 30f, 0);
 		heisenberg.getBody().setFixedRotation(true);
 		loadPlatforms();
-		bullets = new LinkedList<Bullet>();
-		enemies = new LinkedList<Enemy>();
-		createEnemy();
+		bullets = new Array<Bullet>();
+		enemies = new Array<Enemy>();
+//		createEnemy();
 
 		world.setContactFilter(new GameContactFilter());
 
 
 	}
 
-
 	public Heisenberg getHeisenberg(){
 		return this.heisenberg;
 	}
-
 
 	public World get2dBWorld(){
 		return world;
@@ -108,7 +107,7 @@ public class GameWorld {
 		position.x+=2f * heisenberg.getDirection();
 		position.y+=1f;
 		bullet.getBody().setTransform(position.x, position.y, 0);
-		bullets.addLast(bullet);
+		bullets.add(bullet);
 	}
 
 	public void createBulletEnemy(Enemy enemy){
@@ -120,10 +119,8 @@ public class GameWorld {
 		position.x+=2f * enemy.getFace();
 		position.y+=1f;
 		bullet.getBody().setTransform(position.x, position.y, 0);
-		bullets.addLast(bullet);
+		bullets.add(bullet);
 	}
-
-
 
 	public void createEnemy(){
 		BodyDef def = new BodyDef();
@@ -132,7 +129,7 @@ public class GameWorld {
 		Enemy tmpEnemy = new Enemy(tmpBody);
 		tmpEnemy.getBody().setTransform(50f, 50f, 0);
 		tmpEnemy.getBody().setFixedRotation(true);
-		enemies.addLast(tmpEnemy);
+		enemies.add(tmpEnemy);
 	}
 
 	public void updateBullets(){
@@ -145,7 +142,7 @@ public class GameWorld {
 		for (Bullet bullet : bullets){
 			if (!bullet.getStatus()){
 				world.destroyBody(bullet.getBody());
-				bullets.remove(bullet);
+//				bullets.remove(bullet);
 			}
 		}
 	}
@@ -154,7 +151,7 @@ public class GameWorld {
 		for (Enemy enemy: enemies){
 			if (!enemy.getStatus()){
 				world.destroyBody(enemy.getBody());
-				enemies.remove(enemy);
+//				enemies.remove(enemy);
 			}else{
 				enemy.update(delta, heisenberg.getPosition());
 				if (enemy.getNeedBullet()){
@@ -165,8 +162,7 @@ public class GameWorld {
 		}
 	}
 
-
-
-
-
+	public Array<Bullet> getBullets(){
+		return bullets;
+	}
 }

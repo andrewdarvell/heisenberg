@@ -4,10 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import ru.darvell.heisenberg.gameobjects.Bullet;
-import ru.darvell.heisenberg.gameobjects.Enemy;
-import ru.darvell.heisenberg.gameobjects.Heisenberg;
-import ru.darvell.heisenberg.gameobjects.Platform;
+import ru.darvell.heisenberg.gameobjects.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,15 +17,19 @@ import java.util.LinkedList;
 public class GameWorld {
 
 	final public static short CATEGORY_HEISENBERG = 0x0001;
+	final public static short CATEGORY_HEIS_LEGS = 0x0012;
 	final public static short CATEGORY_BLOCK = 0x0002;
-	final public static short CATEGORY_BULLET = 0x0004;
-	final public static short CATEGORY_ENEMY = 0x0008;
+	final public static short CATEGORY_BULLET_PLAYER = 0x0004;
+	final public static short CATEGORY_BULLET_ENEMY = 0x0008;
+	final public static short CATEGORY_ENEMY = 0x00010;
 
 
-	final public static short MASK_HEISENBERG = CATEGORY_BLOCK;
+	final public static short MASK_HEISENBERG = CATEGORY_BLOCK | CATEGORY_BULLET_ENEMY;
+	final public static short MASK_HEISLEGS = CATEGORY_BLOCK;
 	final public static short MASK_BLOCK = CATEGORY_HEISENBERG;
-	final public static short MASK_BULLET = CATEGORY_BLOCK;
-	final public static short MASK_ENEMY = CATEGORY_BULLET | CATEGORY_BLOCK;
+	final public static short MASK_BULLET_PLAYER = CATEGORY_BLOCK;
+	final public static short MASK_BULLET_ENEMY = CATEGORY_BLOCK;
+	final public static short MASK_ENEMY = CATEGORY_BULLET_PLAYER | CATEGORY_BLOCK;
 
 	private Heisenberg heisenberg;
 
@@ -102,7 +103,7 @@ public class GameWorld {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
-		Bullet bullet = new Bullet(tmpBody, heisenberg.getDirection());
+		PlayerBullet bullet = new PlayerBullet(tmpBody, heisenberg.getDirection());
 		Vector2 position = heisenberg.getPosition();
 		position.x+=2f * heisenberg.getDirection();
 		position.y+=1f;
@@ -114,7 +115,7 @@ public class GameWorld {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
-		Bullet bullet = new Bullet(tmpBody, heisenberg.getDirection());
+		EnemyBullet bullet = new EnemyBullet(tmpBody, enemy.getFace());
 		Vector2 position = enemy.getPosition();
 		position.x+=2f * enemy.getFace();
 		position.y+=1f;
@@ -155,10 +156,11 @@ public class GameWorld {
 				world.destroyBody(enemy.getBody());
 				enemies.remove(enemy);
 			}else{
+				enemy.update(delta, heisenberg.getPosition());
 				if (enemy.getNeedBullet()){
 					createBulletEnemy(enemy);
 				}
-				enemy.update(delta, heisenberg.getPosition());
+
 			}
 		}
 	}

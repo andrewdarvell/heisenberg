@@ -15,7 +15,7 @@ public class Enemy {
 
 	public static final int LIFES_COUNT = 5;
 	public static final float SPEED = 5f;
-	public static final int RELOAD_TIME = 200;
+	public static final int RELOAD_TIME = 100;
 
 	private int reloading = 0;
 	private boolean border = false;
@@ -27,8 +27,10 @@ public class Enemy {
 
 	private int lifes;
 	private boolean isAlive;
-	private int direction = 1;
-	private boolean needBullet;
+	//Нужно стрелять или нет
+	private boolean needBullet = false;
+	//Состояние погони за игроком
+	private boolean inRun = false;
 
 
 
@@ -76,14 +78,6 @@ public class Enemy {
 		return isAlive;
 	}
 
-	public int getDirection(){
-		return direction;
-	}
-
-	public void setDirection(int direction){
-		this.direction = direction;
-	}
-
 	public boolean getNeedBullet(){
 		if (needBullet){
 			needBullet = false;
@@ -110,12 +104,12 @@ public class Enemy {
 		Vector2 vel = new Vector2();
 		vel.y = enemyBody.getLinearVelocity().y;
 		vel.x = enemyBody.getLinearVelocity().x;
-		if (distancePlayer < 120){
+		if (distancePlayer < 3000 && distancePlayer > 20){
 			vel.x = SPEED * face;
 		}else{
 			vel.x = 0;
 		}
-		if (distancePlayer > 120 && distancePlayer < 200){
+		if (distancePlayer > 20 && distancePlayer < 300){
 			if (reloading == 0) {
 				needBullet = true;
 			}

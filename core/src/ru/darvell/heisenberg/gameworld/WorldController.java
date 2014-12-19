@@ -42,10 +42,10 @@ public class WorldController {
 //        System.out.println();
 
         processInput();
-
+        gameWorld.delDeadBullets();
 //        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
-        gameWorld.delDeadBullets();
+
         gameWorld.updateEnemies(delta);
     }
 

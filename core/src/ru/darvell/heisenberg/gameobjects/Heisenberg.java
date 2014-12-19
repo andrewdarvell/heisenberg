@@ -56,8 +56,14 @@ public class Heisenberg {
 		Filter f = new Filter();
 		f.categoryBits = GameWorld.CATEGORY_HEISENBERG;
 		f.maskBits = GameWorld.MASK_HEISENBERG;
-		playerSensorFixture.setFilterData(f);
+
 		playerPhysicsFixture.setFilterData(f);
+
+		f = new Filter();
+		f.categoryBits = GameWorld.CATEGORY_HEIS_LEGS;
+		f.maskBits = GameWorld.MASK_HEISLEGS;
+		playerSensorFixture.setFilterData(f);
+
 
 		heisBody.setBullet(true);
 //		setFriction(10F);

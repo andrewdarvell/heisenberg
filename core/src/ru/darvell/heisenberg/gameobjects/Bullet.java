@@ -28,7 +28,7 @@ public class Bullet {
 	}
 
 	public void setStatus(boolean b){
-		isAllive = false;
+		isAllive = b;
 	}
 
 	public Body getBody(){

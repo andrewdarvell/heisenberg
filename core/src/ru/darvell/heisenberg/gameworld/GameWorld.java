@@ -65,7 +65,7 @@ public class GameWorld {
 		loadPlatforms();
 		bullets = new Array<Bullet>();
 		enemies = new Array<Enemy>();
-//		createEnemy();
+		createEnemy();
 
 		world.setContactFilter(new GameContactFilter());
 
@@ -127,7 +127,7 @@ public class GameWorld {
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
 		Enemy tmpEnemy = new Enemy(tmpBody);
-		tmpEnemy.getBody().setTransform(50f, 50f, 0);
+		tmpEnemy.getBody().setTransform(50f, 30f, 0);
 		tmpEnemy.getBody().setFixedRotation(true);
 		enemies.add(tmpEnemy);
 	}
@@ -142,7 +142,7 @@ public class GameWorld {
 		for (Bullet bullet : bullets){
 			if (!bullet.getStatus()){
 				world.destroyBody(bullet.getBody());
-//				bullets.remove(bullet);
+				bullets.removeValue(bullet, true);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ public class GameWorld {
 		for (Enemy enemy: enemies){
 			if (!enemy.getStatus()){
 				world.destroyBody(enemy.getBody());
-//				enemies.remove(enemy);
+				enemies.removeValue(enemy, true);
 			}else{
 				enemy.update(delta, heisenberg.getPosition());
 				if (enemy.getNeedBullet()){

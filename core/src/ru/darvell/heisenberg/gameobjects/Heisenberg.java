@@ -15,10 +15,13 @@ public class Heisenberg {
 	private boolean isJump = false;
 	private boolean isGrounded = false;
 	private int direction = 1;
+	private int lifes;
+	private boolean isAlive;
 
 	public final static float SPEED = 20f;
 	public final static float REAL_WIDTH = 32;
 	public final static float REAL_HEIGHT = 32;
+	private final int MAX_LIFE_COUNT = 20;
 
 	private final int width = 32;
 	private final int height = 64;
@@ -66,7 +69,10 @@ public class Heisenberg {
 
 
 		heisBody.setBullet(true);
-//		setFriction(10F);
+		playerPhysicsFixture.setUserData(this);
+
+		lifes = MAX_LIFE_COUNT;
+		isAlive = true;
 
 	}
 
@@ -160,5 +166,13 @@ public class Heisenberg {
 
 	public float getY(){
 		return heisBody.getPosition().y;
+	}
+
+	public void hit(int power){
+		lifes -= power;
+		if (lifes <= 0){
+			isAlive = false;
+			System.out.println("Player killed");
+		}
 	}
 }

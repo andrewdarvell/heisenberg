@@ -42,8 +42,8 @@ public class GameRender {
 	public GameRender(GameWorld gameWorld, TiledMap tiledMap){
 		this.gameWorld = gameWorld;
 		camera = new OrthographicCamera();
-//		camera.setToOrtho(false, 100, 80);
-		camera.setToOrtho(false, 800, 600);
+		camera.setToOrtho(false, 100, 80);
+//		camera.setToOrtho(false, 800, 600);
 
 
 		batcher = new SpriteBatch();
@@ -70,37 +70,29 @@ public class GameRender {
 
 
 
-//		camera.update();
-//		tiledMapRenderer.setView(camera);
-//		tiledMapRenderer.render();
-//		batcher.begin();
-//		batcher.draw(AssetLoader.textur, heisenberg.getX(), heisenberg.getY(), heisenberg.getWidth(), heisenberg.getHeight());
-//		batcher.end();
 
-//		box2dRender.render(gameWorld.get2dBWorld(), camera.combined);
+		box2dRender.render(gameWorld.get2dBWorld(), camera.combined);
 
 		gameWorld.get2dBWorld().step(delta, 4, 4);
-		batcher.begin();
-
-		batcher.draw(AssetLoader.map,0,0,800*2,400*2);
-
-		for(Bullet bullet : gameWorld.getBullets()){
-			if (bullet.getStatus()){
-				batcher.draw(AssetLoader.bullet_r, bullet.getX()*10-150, bullet.getY()*10-145, 5, 3);
-			}
-		}
-		batcher.draw(AssetLoader.textur, heisenberg.getX()*10-150, heisenberg.getY()*10-170, heisenberg.getWidth(), heisenberg.getHeight());
+//		batcher.begin();
+//
+//		batcher.draw(AssetLoader.map,0,0,800*2,400*2);
+//
+//		for(Bullet bullet : gameWorld.getBullets()){
+//			if (bullet.getStatus()){
+//				batcher.draw(AssetLoader.bullet_r, bullet.getX()*10-150, bullet.getY()*10-145, 5, 3);
+//			}
+//		}
 //		batcher.draw(AssetLoader.textur, heisenberg.getX()*10-150, heisenberg.getY()*10-170, heisenberg.getWidth(), heisenberg.getHeight());
-		batcher.end();
-
-
-//		tiledMapRenderer.setView(camera);
-//		tiledMapRenderer.render();
-
-		setPositionCamera(heisenberg.getPosition());
-		camera.update();
-		batcher.setProjectionMatrix(camera.combined);
-//		System.out.println(Gdx.graphics.getFramesPerSecond());
+//		batcher.end();
+//
+//
+////		tiledMapRenderer.setView(camera);
+////		tiledMapRenderer.render();
+//
+//		setPositionCamera(heisenberg.getPosition());
+//		camera.update();
+//		batcher.setProjectionMatrix(camera.combined);
 
 
 	}

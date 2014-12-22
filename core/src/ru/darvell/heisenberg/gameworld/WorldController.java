@@ -46,7 +46,7 @@ public class WorldController {
 //        gameWorld.updateBullets();
         gameWorld.getHeisenberg().update(delta);
 
-//        gameWorld.updateEnemies(delta);
+        gameWorld.updateEnemies(delta);
     }
 
     //флаг устанавливаем, что движемся влево

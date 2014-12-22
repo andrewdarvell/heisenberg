@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import ru.darvell.heisenberg.gameobjects.Bullet;
 import ru.darvell.heisenberg.gameobjects.Enemy;
+import ru.darvell.heisenberg.gameobjects.Heisenberg;
 
 /**
  * Класс для отслеживания коллизий
@@ -36,6 +37,13 @@ public class GameContactFilter implements ContactFilter{
 			return true;
 		}
 
+		// Пуля врага и блок
+		if((filterA.categoryBits == GameWorld.CATEGORY_BULLET_ENEMY && filterB.categoryBits == GameWorld.CATEGORY_BLOCK) ||
+				(filterB.categoryBits == GameWorld.CATEGORY_BULLET_ENEMY && filterA.categoryBits == GameWorld.CATEGORY_BLOCK )) {
+
+			return true;
+		}
+
 		//Блок и враг
 		if((filterA.categoryBits == GameWorld.CATEGORY_BLOCK && filterB.categoryBits == GameWorld.CATEGORY_ENEMY) ||
 				(filterB.categoryBits == GameWorld.CATEGORY_BLOCK && filterA.categoryBits == GameWorld.CATEGORY_ENEMY )) {
@@ -49,16 +57,20 @@ public class GameContactFilter implements ContactFilter{
 
 			if (filterA.categoryBits == GameWorld.CATEGORY_BULLET_PLAYER){
 				Bullet bullet = (Bullet)fixtureA.getUserData();
-				Enemy enemy = (Enemy)fixtureB.getUserData();
-				bullet.setStatus(false);
-				enemy.hit();
+				if(bullet.getStatus()){
+					Enemy enemy = (Enemy)fixtureB.getUserData();
+					bullet.setStatus(false);
+					enemy.hit();
+				}
 
 			}
 			if (filterB.categoryBits == GameWorld.CATEGORY_BULLET_PLAYER){
 				Bullet bullet = (Bullet)fixtureB.getUserData();
-				Enemy enemy = (Enemy)fixtureA.getUserData();
-				bullet.setStatus(false);
-				enemy.hit();
+				if (bullet.getStatus()) {
+					Enemy enemy = (Enemy) fixtureA.getUserData();
+					bullet.setStatus(false);
+					enemy.hit();
+				}
 			}
 
 			return true;
@@ -70,14 +82,20 @@ public class GameContactFilter implements ContactFilter{
 
 			if (filterA.categoryBits == GameWorld.CATEGORY_BULLET_ENEMY){
 				Bullet bullet = (Bullet)fixtureA.getUserData();
-				bullet.setStatus(false);
-//				enemy.hit();
+				if(bullet.getStatus()) {
+					Heisenberg heisenberg = (Heisenberg) fixtureB.getUserData();
+					bullet.setStatus(false);
+					heisenberg.hit(1);
+				}
 
 			}
 			if (filterB.categoryBits == GameWorld.CATEGORY_BULLET_ENEMY){
 				Bullet bullet = (Bullet)fixtureB.getUserData();
-				bullet.setStatus(false);
-//				enemy.hit();
+				if (bullet.getStatus()) {
+					Heisenberg heisenberg = (Heisenberg) fixtureA.getUserData();
+					bullet.setStatus(false);
+					heisenberg.hit(1);
+				}
 			}
 			System.out.println("Player hit\'s");
 			return true;

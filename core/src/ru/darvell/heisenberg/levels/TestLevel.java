@@ -5,18 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import ru.darvell.heisenberg.HeisenbergGame;
 import ru.darvell.heisenberg.gameworld.GameRender;
 import ru.darvell.heisenberg.gameworld.GameWorld;
 import ru.darvell.heisenberg.gameworld.WorldController;
-import ru.darvell.heisenberg.helpers.InputHandler;
 
 /**
  * Тестовый уровень. Для того, чтобы
@@ -32,10 +26,11 @@ import ru.darvell.heisenberg.helpers.InputHandler;
 //TODO Несложный босс (Несложный в плане реализации)
 //TODO Подумать над разного рода усилениями
 //TODO Повесить рекламу
-//TODO Подгрузка врагов с карты
+//Подгрузка врагов с карты
 //TODO Отображение инф о игроке
 //TODO Система очков (Продумать)
 //TODO Подгрузка разных уровней
+//TODO Разобраться с масштабирование в рендере
 
 
 

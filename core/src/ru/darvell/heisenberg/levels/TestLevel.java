@@ -17,7 +17,7 @@ import ru.darvell.heisenberg.gameworld.WorldController;
  */
 
 // Прыжок в телефоне
-//TODO Заново если персонаж умирает
+// Заново если персонаж умирает
 //TODO Звуки
 //TODO Игровые объекты (жизнь, мет)
 //TODO Стоячий на месте враг (Чувак в коляске)
@@ -69,9 +69,9 @@ public class TestLevel implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 
-
-		controller.update(delta);
 		gameRender.render(delta);
+		controller.update(delta);
+
 
 		logger.log();
 	}

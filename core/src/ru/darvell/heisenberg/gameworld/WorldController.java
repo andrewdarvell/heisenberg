@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.utils.Array;
+import ru.darvell.heisenberg.HeisenbergGame;
 import ru.darvell.heisenberg.gameobjects.Heisenberg;
+import ru.darvell.heisenberg.levels.TestLevel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,15 +40,21 @@ public class WorldController {
     }
 
     public void update(float delta) {
-        grounded = isPlayerGrounded(Gdx.graphics.getDeltaTime());
-//        System.out.println();
+        if (gameWorld.getHeisenberg().isAlive()){
+            grounded = isPlayerGrounded(Gdx.graphics.getDeltaTime());
+    //        System.out.println();
 
-        processInput();
-        gameWorld.delDeadBullets();
-//        gameWorld.updateBullets();
-        gameWorld.getHeisenberg().update(delta);
+            processInput();
+            gameWorld.delDeadBullets();
+    //        gameWorld.updateBullets();
+            gameWorld.getHeisenberg().update(delta);
 
-        gameWorld.updateEnemies(delta);
+            gameWorld.updateEnemies(delta);
+
+        }
+        else {
+            HeisenbergGame.setGameOverScreen();
+        }
     }
 
     //флаг устанавливаем, что движемся влево
@@ -163,6 +171,7 @@ public class WorldController {
             gameWorld.createBulletPlayer();
             eReleased();
         }
-
     }
+
+
 }

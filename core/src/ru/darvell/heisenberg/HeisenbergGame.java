@@ -4,10 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ru.darvell.heisenberg.helpers.AssetLoader;
+import ru.darvell.heisenberg.menus.GameOverScreen;
 import ru.darvell.heisenberg.menus.MainMenuScreen;
 
 
 public class HeisenbergGame extends Game {
+	static HeisenbergGame game;
 
 	SpriteBatch batch;
 	BitmapFont font;
@@ -17,6 +19,7 @@ public class HeisenbergGame extends Game {
 		// libGDX по умолчанию использует Arial шрифт.
 		font = new BitmapFont();
 		AssetLoader.load();
+		game = this;
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -36,6 +39,14 @@ public class HeisenbergGame extends Game {
 
 	public BitmapFont getFont(){
 		return this.font;
+	}
+
+	public static void setMainScreen(){
+		game.setScreen(new MainMenuScreen(game));
+	}
+
+	public static void setGameOverScreen(){
+		game.setScreen(new GameOverScreen());
 	}
 
 }

@@ -16,7 +16,7 @@ public class Heisenberg {
 	private boolean isGrounded = false;
 	private int direction = 1;
 	private int lifes;
-	private boolean isAlive;
+	private boolean isAlive = true;
 
 	public final static float SPEED = 20f;
 	public final static float REAL_WIDTH = 32;
@@ -176,5 +176,9 @@ public class Heisenberg {
 			isAlive = false;
 			System.out.println("Player killed");
 		}
+	}
+
+	public boolean isAlive(){
+		return isAlive;
 	}
 }

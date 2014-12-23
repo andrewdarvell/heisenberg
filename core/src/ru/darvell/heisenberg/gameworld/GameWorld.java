@@ -1,5 +1,9 @@
 package ru.darvell.heisenberg.gameworld;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +13,7 @@ import ru.darvell.heisenberg.gameobjects.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Properties;
 
 /**
  * Игровой мир со всеми объектами
@@ -65,8 +70,9 @@ public class GameWorld {
 		loadPlatforms();
 		bullets = new Array<Bullet>();
 		enemies = new Array<Enemy>();
-		createEnemy();
+//		createEnemy();
 
+		loadMap();
 		world.setContactFilter(new GameContactFilter());
 
 
@@ -79,6 +85,26 @@ public class GameWorld {
 	public World get2dBWorld(){
 		return world;
 	}
+
+	private void loadMap(){
+		loadPlatforms();
+		loadEnemies();
+	}
+
+	private void loadEnemies(){
+		MapLayer enemiesLayer = map.getLayers().get("enemies");
+		MapObjects enemiesFromMap = enemiesLayer.getObjects();
+		MapProperties properties;
+		MapObject obj;
+		for (int i = 0; i < enemiesFromMap.getCount(); i++){
+			obj = enemiesFromMap.get(i);
+			properties =  obj.getProperties();
+			createEnemy(Float.parseFloat((String)properties.get("x"))* 3.2f+16,Float.parseFloat((String)properties.get("y"))*3.2f+16);
+			System.out.println(properties.get("x")+":"+properties.get("y"));
+		}
+
+	}
+
 
 	private void loadPlatforms(){
 		TiledMapTileLayer platformsLayer = (TiledMapTileLayer) map.getLayers().get("main");
@@ -122,12 +148,13 @@ public class GameWorld {
 		bullets.add(bullet);
 	}
 
-	public void createEnemy(){
+	public void createEnemy(float x, float y){
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		Body tmpBody = world.createBody(def);
 		Enemy tmpEnemy = new Enemy(tmpBody);
-		tmpEnemy.getBody().setTransform(50f, 30f, 0);
+//		tmpEnemy.getBody().setTransform(50f, 30f, 0);
+		tmpEnemy.getBody().setTransform(x, y, 0);
 		tmpEnemy.getBody().setFixedRotation(true);
 		enemies.add(tmpEnemy);
 	}

@@ -104,7 +104,7 @@ public class  Enemy {
 //			} else {
 //				face = 1;
 //			}
-//			double distancePlayer = Math.abs(Math.pow(playerPosition.x - pos.x, 2) + Math.pow(playerPosition.y - pos.y, 2));
+			double distancePlayer = Math.abs(Math.pow(playerPosition.x - pos.x, 2) + Math.pow(playerPosition.y - pos.y, 2));
 //			Vector2 vel = new Vector2();
 //			vel.y = enemyBody.getLinearVelocity().y;
 //			vel.x = enemyBody.getLinearVelocity().x;
@@ -120,15 +120,30 @@ public class  Enemy {
 //					needBullet = true;
 //				}
 //			}
+
 			if (steps < TIME_TO_GO){
 				steps += 1;
 			}else{
 				steps = 0;
 				directToGo *= -1;
 			}
+			face = directToGo;
+
 			Vector2 vel = enemyBody.getLinearVelocity();
 			vel.x = SPEED * directToGo;
-
+			if (distancePlayer > 20 && distancePlayer < 300){
+//				float pol = playerPosition.x - enemyBody.getPosition().x;
+				if ((playerPosition.x > enemyBody.getPosition().x) && (directToGo >0)){
+					if (reloading == 0) {
+					needBullet = true;
+					}
+				}
+				if ((playerPosition.x < enemyBody.getPosition().x) && (directToGo <0)){
+					if (reloading == 0) {
+						needBullet = true;
+					}
+				}
+			}
 			enemyBody.setLinearVelocity(vel);
 			steps += 1;
 		}

@@ -74,6 +74,7 @@ public class Heisenberg {
 		lifes = MAX_LIFE_COUNT;
 		isAlive = true;
 
+
 	}
 
 
@@ -85,6 +86,7 @@ public class Heisenberg {
 			heisBody.applyLinearImpulse(0, 50f, heisBody.getPosition().x,  heisBody.getPosition().y, true);
 			isJump = false;
 		}
+//		System.out.println(heisBody.getPosition());
 	}
 
 	public void jump(){

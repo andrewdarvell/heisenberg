@@ -13,4 +13,18 @@
    eJzt1EEKACAIRNFw3f3P216KkhQL/9u0CZkwpjUAAIC3SXYAJz07AICpiI7J6K2IjqncW6LOX1XZYfSeTuav7liy7fZ1+0493yubNVeVfzkzANrnAHk=
   </data>
  </layer>
+ <objectgroup name="enemies" width="50" height="25">
+  <object name="enemy" x="485" y="705" width="26" height="56">
+   <properties>
+    <property name="x" value="15"/>
+    <property name="y" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="645" y="609" width="26" height="56">
+   <properties>
+    <property name="x" value="20"/>
+    <property name="y" value="5"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

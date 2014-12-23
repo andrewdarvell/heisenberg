@@ -16,12 +16,12 @@ import ru.darvell.heisenberg.gameworld.WorldController;
  * Тестовый уровень. Для того, чтобы
  */
 
-//TODO Прыжок в телефоне
+// Прыжок в телефоне
 //TODO Заново если персонаж умирает
 //TODO Звуки
 //TODO Игровые объекты (жизнь, мет)
 //TODO Стоячий на месте враг (Чувак в коляске)
-//TODO Поменять цвет фона
+// Поменять цвет фона
 //TODO Главный экран игры и экран выбора уровней
 //TODO Несложный босс (Несложный в плане реализации)
 //TODO Подумать над разного рода усилениями
@@ -165,6 +165,14 @@ public class TestLevel implements Screen, InputProcessor {
 			case Input.Keys.E:
 				controller.ePressed();
 				break;
+			case Input.Keys.U:
+				controller.leftPressed();
+				controller.upPressed();
+				break;
+			case Input.Keys.I:
+				controller.rightPressed();
+				controller.upPressed();
+				break;
 		}
 
 		return false;
@@ -181,6 +189,12 @@ public class TestLevel implements Screen, InputProcessor {
 				break;
 			case Input.Keys.E:
 				controller.eReleased();
+				break;
+			case Input.Keys.U:
+				controller.resetWay();
+				break;
+			case Input.Keys.I:
+				controller.resetWay();
 				break;
 		}
 		return false;
@@ -216,7 +230,13 @@ public class TestLevel implements Screen, InputProcessor {
 				return Input.Keys.E;
 			}
 		}else if (y < y0){
-			return Input.Keys.SPACE;
+			if (x <= x1){
+				return Input.Keys.U;
+			}else if(x>=x2){
+				return Input.Keys.I;
+			}else {
+				return Input.Keys.SPACE;
+			}
 		}
 		return -1;
 	}
